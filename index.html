@@ -3,17 +3,151 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Neville Davey — AI Product Portfolio</title>
+  <title>Neville Davey — Product Notes & Selected Builds</title>
+  <meta
+    name="description"
+    content="Selected product builds and company-internal tools from Neville Davey."
+  />
   <link rel="stylesheet" href="styles.css" />
 </head>
+
 <body>
   <main class="page">
-    <section class="hero">
-      <p class="eyebrow">AI Product Portfolio</p>
-      <h1>I build practical AI workflows, not generic chatbots.</h1>
-      <p>
-        Current projects: Race Ready, PM Interview Coach, and Excavation Proposal Agent.
+    <header class="hero">
+      <p class="eyebrow">Product notes & selected builds</p>
+    </header>
+    <section class="section">
+      <div class="section-label">Current personal build</div>
+
+      <article class="card featured-card">
+        <div class="card-header">
+          <div>
+            <p class="status">MVP build</p>
+            <h2>Race Ready</h2>
+          </div>
+          <p class="project-type">PWA / running / AI-assisted workflow</p>
+        </div>
+
+        <p>
+          Race Ready is a mobile-first race-prep app for recreational half
+          marathon and marathon runners. The initial audience is first-time or
+          less-experienced long-distance runners who want more guidance when
+          training gets disrupted by missed runs, soreness, fatigue, travel, or
+          uncertainty.
+        </p>
+
+        <p>
+          I’m building the MVP as a PWA first so I can validate the core
+          experience before investing in a native iOS app. The near-term goal is
+          to test whether a simple check-in, run logging flow, and weekly review
+          can help runners feel more prepared during training.
+        </p>
+
+        <div class="two-column">
+          <div>
+            <h3>Core product loop</h3>
+            <ul>
+              <li>Sign in with Google</li>
+              <li>Choose or manually enter a race</li>
+              <li>Assess race readiness</li>
+              <li>Generate a simple initial plan</li>
+              <li>Check in before runs</li>
+              <li>Log completed runs</li>
+              <li>Get missed-workout guidance</li>
+              <li>Receive a weekly review</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3>How the LLM fits</h3>
+            <ul>
+              <li>Extracts messy run logs into structured data</li>
+              <li>Drafts workout briefings</li>
+              <li>Explains missed-workout adjustments</li>
+              <li>Generates weekly review summaries</li>
+              <li>Stays behind server-side rules and safety checks</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="architecture-note">
+          <h3>Architecture direction</h3>
+          <p>
+            The UI is intentionally thin: it displays state and submits actions.
+            Race-distance rules, safety guardrails, plan viability, quotas, and
+            LLM orchestration live in the server/domain layer. The goal is to
+            keep the core logic reusable if the product later moves from PWA to
+            native iOS.
+          </p>
+
+          <div class="flow">
+            <span>PWA UI</span>
+            <span>Server actions</span>
+            <span>Training rules</span>
+            <span>LLM service</span>
+            <span>Supabase</span>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="section">
+      <div class="section-label">Company-internal tools</div>
+
+      <p class="section-intro">
+        These tools were built for internal workflows and live in company
+        systems, not my personal GitHub. I’m including them here because they
+        reflect the same builder habit: finding recurring operational friction
+        and creating a practical tool to reduce manual work.
       </p>
+
+      <div class="grid">
+        <article class="card quiet-card">
+          <p class="status">Internal tool</p>
+          <h2>Commercialization product dashboard</h2>
+          <p>
+            Built a dashboard for a commercialization workflow that filtered a
+            broad product catalog down to the current-year tax product set. The
+            goal was to reduce manual lookup work and give the team a more
+            focused view of product attributes, feature references,
+            entitlements, and upgrade/downgrade rules.
+          </p>
+
+          <h3>Implementation notes</h3>
+          <ul>
+            <li>Built during an internal engineering development week</li>
+            <li>Used the company’s internal React-based app framework</li>
+            <li>Aggregated data from internal APIs</li>
+            <li>Focused on making product data easier to find and compare</li>
+          </ul>
+
+          <p class="small-note">
+            Source code, screenshots, and internal data are omitted.
+          </p>
+        </article>
+
+        <article class="card quiet-card">
+          <p class="status">Internal tool</p>
+          <h2>Sales deal lever reference tool</h2>
+          <p>
+            Built a reference tool for deal desk and order desk workflows. The
+            app organized available deal levers and helped teams understand
+            compatibility, restrictions, and business-rule considerations when
+            preparing sales quotes.
+          </p>
+
+          <h3>Implementation notes</h3>
+          <ul>
+            <li>Created a more accessible source of truth for sales-support workflows</li>
+            <li>Focused on surfacing rules that were previously harder to reference</li>
+            <li>Designed for operational clarity rather than broad distribution</li>
+          </ul>
+
+          <p class="small-note">
+            Source code, screenshots, and internal business rules are omitted.
+          </p>
+        </article>
+      </div>
     </section>
   </main>
 </body>
