@@ -25,66 +25,89 @@
             <p class="status">MVP build</p>
             <h2>Race Ready</h2>
           </div>
-          <p class="project-type">PWA / running / AI-assisted workflow</p>
+          <p class="project-type">PWA / running / LLM-assisted coaching workflow</p>
         </div>
-
+      
         <p>
-          Race Ready is a mobile-first race-prep app for recreational half
-          marathon and marathon runners. The initial audience is first-time or
-          less-experienced long-distance runners who want more guidance when
-          training gets disrupted by missed runs, soreness, fatigue, travel, or
-          uncertainty.
+          Race Ready is a mobile-first race-prep app for recreational half marathon
+          and marathon runners. The initial audience is first-time or less-experienced
+          long-distance runners who want practical guidance when training gets
+          disrupted by missed runs, soreness, fatigue, travel, or uncertainty.
         </p>
-
+      
         <p>
-          I’m building the MVP as a PWA first so I can validate the core
-          experience before investing in a native iOS app. The near-term goal is
-          to test whether a simple check-in, run logging flow, and weekly review
-          can help runners feel more prepared during training.
+          I’m building the MVP as a PWA first to validate the core coaching loop before
+          investing in a native iOS app. The product starts with structured onboarding,
+          creates an initial conservative plan, then uses check-ins and run logs to help
+          runners understand whether they are on track and what to adjust next.
         </p>
-
+      
         <div class="two-column">
           <div>
             <h3>Core product loop</h3>
             <ul>
               <li>Sign in with Google</li>
               <li>Choose or manually enter a race</li>
+              <li>Complete race-prep onboarding</li>
               <li>Assess race readiness</li>
-              <li>Generate a simple initial plan</li>
+              <li>Generate an initial plan</li>
               <li>Check in before runs</li>
               <li>Log completed runs</li>
-              <li>Get missed-workout guidance</li>
-              <li>Receive a weekly review</li>
+              <li>Compare actual training against the plan</li>
+              <li>Get conservative missed-workout guidance</li>
+              <li>Receive a weekly training review</li>
             </ul>
           </div>
-
+      
           <div>
-            <h3>How the LLM fits</h3>
+            <h3>LLM coaching layer</h3>
+            <p>
+              Race Ready is not a generic running chatbot. The LLM sits behind a
+              structured training workflow.
+            </p>
             <ul>
               <li>Extracts messy run logs into structured data</li>
+              <li>Summarizes readiness notes and risk signals</li>
               <li>Drafts workout briefings</li>
               <li>Explains missed-workout adjustments</li>
               <li>Generates weekly review summaries</li>
-              <li>Stays behind server-side rules and safety checks</li>
+              <li>Turns plan changes into clear runner-facing guidance</li>
             </ul>
           </div>
         </div>
-
+      
         <div class="architecture-note">
-          <h3>Architecture direction</h3>
+          <h3>Rules, evals, and architecture</h3>
           <p>
-            The UI is intentionally thin: it displays state and submits actions.
-            Race-distance rules, safety guardrails, plan viability, quotas, and
-            LLM orchestration live in the server/domain layer. The goal is to
-            keep the core logic reusable if the product later moves from PWA to
-            native iOS.
+            The LLM is not the training engine. Server-side rules own plan structure,
+            race-distance logic, safety guardrails, quota checks, and viable adjustment
+            options. The LLM helps translate messy runner input and training history
+            into concise coaching guidance.
           </p>
-
+      
+          <p>
+            I’m also building an evaluation harness around the coaching layer. The goal
+            is to check whether outputs are safe, conservative, specific, aligned with
+            deterministic training rules, and useful to the runner.
+          </p>
+      
+          <ul class="compact-list">
+            <li>Does not diagnose injuries</li>
+            <li>Does not recommend training through sharp or worsening pain</li>
+            <li>Does not suggest cramming missed mileage</li>
+            <li>Preserves long-run importance for marathon plans</li>
+            <li>Keeps guidance distance-specific</li>
+            <li>Matches the server-generated recommendation</li>
+            <li>Gives a clear next action</li>
+          </ul>
+      
           <div class="flow">
             <span>PWA UI</span>
             <span>Server actions</span>
             <span>Training rules</span>
-            <span>LLM service</span>
+            <span>Activity analysis</span>
+            <span>LLM coaching layer</span>
+            <span>Eval harness</span>
             <span>Supabase</span>
           </div>
         </div>

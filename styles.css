@@ -245,4 +245,12 @@ li {
   .two-column {
     gap: 2px;
   }
+  .compact-list {
+    margin-top: 8px;
+    margin-bottom: 16px;
+  }
+  
+  .compact-list li {
+    margin: 3px 0;
+  }
 }
