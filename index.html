@@ -16,99 +16,145 @@
     <header class="hero">
       <p class="eyebrow">Product notes & selected builds</p>
     </header>
+
     <section class="section">
       <div class="section-label">Current personal build</div>
 
       <article class="card featured-card">
         <div class="card-header">
           <div>
-            <p class="status">MVP build</p>
-            <h2>Race Ready</h2>
+            <p class="status">MVP in progress</p>
+            <h2>CoachObey</h2>
           </div>
-          <p class="project-type">PWA / running / LLM-assisted coaching workflow</p>
+          <p class="project-type">PWA / running / adaptive AI coaching workflow</p>
         </div>
-      
+
         <p>
-          Race Ready is a mobile-first race-prep app for recreational half marathon
-          and marathon runners. The initial audience is first-time or less-experienced
-          long-distance runners who want practical guidance when training gets
-          disrupted by missed runs, soreness, fatigue, travel, or uncertainty.
+          <a href="https://coachobey.com" target="_blank" rel="noopener noreferrer">CoachObey</a>
+          is a mobile-first race-prep app for recreational half marathon and marathon
+          runners. The product is designed for runners who want more than a static
+          training plan, but may not be ready to hire a human coach.
         </p>
-      
+
         <p>
-          I’m building the MVP as a PWA first to validate the core coaching loop before
-          investing in a native iOS app. The product starts with structured onboarding,
-          creates an initial conservative plan, then uses check-ins and run logs to help
-          runners understand whether they are on track and what to adjust next.
+          The MVP focuses on a practical coaching loop: understand the runner’s race
+          goal and training background, generate an initial plan, then help the runner
+          stay on track as real life interferes. The app is intended to handle common
+          training disruptions like missed runs, fatigue, soreness, travel, work stress,
+          calendar conflicts, and uncertainty about what to adjust next.
         </p>
-      
+
+        <p>
+          I’m building this as a PWA first so I can validate the product behavior and
+          coaching workflow before investing in a native mobile app. The current build
+          is also a way to explore how LLMs can be applied inside a structured product
+          system rather than used as a generic chatbot.
+        </p>
+
         <div class="two-column">
           <div>
             <h3>Core product loop</h3>
             <ul>
               <li>Sign in with Google</li>
               <li>Choose or manually enter a race</li>
-              <li>Complete race-prep onboarding</li>
-              <li>Assess race readiness</li>
-              <li>Generate an initial plan</li>
-              <li>Check in before runs</li>
-              <li>Log completed runs</li>
+              <li>Complete a streamlined race-prep onboarding flow</li>
+              <li>Enter running background, goal, availability, and injury history</li>
+              <li>Assess current training capacity and race readiness</li>
+              <li>Generate an initial conservative plan</li>
+              <li>Choose a coaching personality</li>
+              <li>Check in before runs and log completed training</li>
               <li>Compare actual training against the plan</li>
-              <li>Get conservative missed-workout guidance</li>
-              <li>Receive a weekly training review</li>
+              <li>Ask the coach for guidance when training gets disrupted</li>
+              <li>Receive missed-workout guidance and weekly training reviews</li>
             </ul>
           </div>
-      
+
           <div>
-            <h3>LLM coaching layer</h3>
+            <h3>Adaptive coaching layer</h3>
             <p>
-              Race Ready is not a generic running chatbot. The LLM sits behind a
-              structured training workflow.
+              CoachObey is not positioned as a general running chatbot. The coach chat
+              is scoped to race preparation, training decisions, recovery, accountability,
+              and plan guidance.
             </p>
             <ul>
-              <li>Extracts messy run logs into structured data</li>
-              <li>Summarizes readiness notes and risk signals</li>
-              <li>Drafts workout briefings</li>
-              <li>Explains missed-workout adjustments</li>
-              <li>Generates weekly review summaries</li>
-              <li>Turns plan changes into clear runner-facing guidance</li>
+              <li>Answers questions using the runner’s race, plan, and recent training context</li>
+              <li>Helps interpret bad workouts, missed runs, fatigue, and schedule conflicts</li>
+              <li>Explains why a workout matters and what to focus on next</li>
+              <li>Can propose plan adjustments when availability or readiness changes</li>
+              <li>Turns validated plan changes into clear runner-facing guidance</li>
+              <li>Maintains lightweight coaching memory around preferences and recurring patterns</li>
             </ul>
           </div>
         </div>
-      
+
+        <div class="architecture-note">
+          <h3>Product direction</h3>
+          <p>
+            A key product idea is that runners respond to different types of coaching.
+            The app supports selectable coach personalities that change the tone and
+            accountability style without changing the underlying safety rules.
+          </p>
+
+          <ul class="compact-list">
+            <li><strong>Knox:</strong> direct, demanding, and accountability-heavy</li>
+            <li><strong>Mara:</strong> calm, practical, and steady</li>
+            <li><strong>Sunny:</strong> encouraging and confidence-building</li>
+            <li><strong>Atlas:</strong> analytical and data-driven</li>
+          </ul>
+
+          <p>
+            The intention is to make the coach feel more useful and personal while
+            keeping the product bounded as a race-prep tool, not a general-purpose
+            AI companion.
+          </p>
+        </div>
+
         <div class="architecture-note">
           <h3>Rules, evals, and architecture</h3>
           <p>
             The LLM is not the training engine. Server-side rules own plan structure,
-            race-distance logic, safety guardrails, quota checks, and viable adjustment
-            options. The LLM helps translate messy runner input and training history
-            into concise coaching guidance.
+            race-distance logic, training-capacity tiers, workout permissions, safety
+            guardrails, quota checks, and viable adjustment options. The LLM helps
+            interpret messy runner input and translate approved decisions into concise,
+            useful coaching.
           </p>
-      
+
           <p>
-            I’m also building an evaluation harness around the coaching layer. The goal
-            is to check whether outputs are safe, conservative, specific, aligned with
-            deterministic training rules, and useful to the runner.
+            Plan changes are handled through a patch workflow: the LLM can propose a
+            structured adjustment, but deterministic validators decide whether the change
+            is safe and allowed before the plan is updated.
           </p>
-      
+
           <ul class="compact-list">
             <li>Does not diagnose injuries</li>
-            <li>Does not recommend training through sharp or worsening pain</li>
+            <li>Does not recommend training through sharp, worsening, or gait-changing pain</li>
             <li>Does not suggest cramming missed mileage</li>
+            <li>Does not add punishment workouts</li>
             <li>Preserves long-run importance for marathon plans</li>
             <li>Keeps guidance distance-specific</li>
-            <li>Matches the server-generated recommendation</li>
-            <li>Gives a clear next action</li>
+            <li>Trains from current fitness rather than unsupported goal pace</li>
+            <li>Requires plan changes to match server-approved options</li>
+            <li>Gives the runner a clear next action</li>
           </ul>
-      
+
+          <p>
+            I’m also building an evaluation harness around the coaching layer. The goal
+            is to test whether generated guidance is safe, conservative where needed,
+            specific to the runner, aligned with deterministic training rules, and
+            consistent with the selected coach personality.
+          </p>
+
           <div class="flow">
             <span>PWA UI</span>
             <span>Server actions</span>
+            <span>Supabase</span>
             <span>Training rules</span>
             <span>Activity analysis</span>
-            <span>LLM coaching layer</span>
+            <span>Coach chat</span>
+            <span>Plan-patch validation</span>
+            <span>LLM routing</span>
+            <span>Usage metering</span>
             <span>Eval harness</span>
-            <span>Supabase</span>
           </div>
         </div>
       </article>
